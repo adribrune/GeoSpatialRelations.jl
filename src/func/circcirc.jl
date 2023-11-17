@@ -1,9 +1,4 @@
 
-using LinearAlgebra
-
-
-
-
 """
     circcirc(pos_circ, r_circ, n_circ, pos_circ_2, r_circ_2)
 
