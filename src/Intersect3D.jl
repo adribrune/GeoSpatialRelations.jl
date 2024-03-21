@@ -1,5 +1,10 @@
 module Intersect3D
 
-greet() = print("Hello World!")
+using LinearAlgebra
+
+include("func/circcirc.jl")
+include("func/circsphere.jl")
+
+export circcirc, circsphere, linesphere, lineline, lineplane
 
 end # module Intersect3D
