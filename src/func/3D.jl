@@ -19,7 +19,7 @@ function lineplane(support_point_line::Vector{Float64}, direction::Vector{Float6
 
     x = dot(normal, support_point_plane .- support_point_line) / dot(normal, direction)
 
-    intersection_point = support_point_line_line .+ x * direction
+    intersection_point = support_point_line .+ x * direction
 
     return intersection_point
 
