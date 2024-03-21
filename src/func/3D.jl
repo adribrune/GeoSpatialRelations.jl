@@ -15,7 +15,7 @@
 - intersection_point::Vector{Float64}(def,3): intersection point between a line and a plane 
 
 """
-function lineplane(support_point_line_line::Vector{Float64}, direction::Vector{Float64}, normal::Vector{Float64},support_point_plane::Vector{Float64})
+function lineplane(support_point_line::Vector{Float64}, direction::Vector{Float64}, normal::Vector{Float64},support_point_plane::Vector{Float64})
 
     x = dot(normal, support_point_plane .- support_point_line) / dot(normal, direction)
 
