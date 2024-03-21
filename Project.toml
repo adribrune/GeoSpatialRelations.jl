@@ -1,7 +1,7 @@
-name = "Intersection"
-uuid = "e0dbf9fa-6343-4295-9bff-87e05e90d75c"
-authors = ["Adrian Brune <adrian.brune@student-uni.augburg.de>"]
-version = "0.0.0"
+name = "Intersect3D.jl"
+uuid = "4f4b3779-db02-45a2-a250-b7461b60f8cf"
+authors = ["bruneadr "]
+version = "0.1.0"
 
 [deps]
 Documenter = "e30172f5-a6a5-5a46-863b-614d45cd2de4"

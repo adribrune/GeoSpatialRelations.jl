@@ -1,10 +1,10 @@
 using Documenter
-using Intersection
+using Intersect3D
 
 makedocs(
-    sitename = "Intersection",
+    sitename = "Intersect3D",
     format = Documenter.HTML(),
-    modules = [Intersection]
+    modules = [Intersect3D]
 )
 
 # Documenter can also automatically deploy documentation to gh-pages.
