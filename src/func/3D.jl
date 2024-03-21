@@ -1,6 +1,3 @@
-using LinearAlgebra
-using GeometryTypes
-
 """
     lineplane(support_point_line::Vector{Float64}(def,3), direction::Vector{Float64}(def,3), normal::Vector{Float64}(def,3),support_point_plane::Vector{Float64}(def,3))
 
