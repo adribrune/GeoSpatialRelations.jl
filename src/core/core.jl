@@ -7,23 +7,28 @@ abstract type AbstractPlane <: AbstractSpatial end
 
 for (type, supertype) in zip([:Line, :Plane], [:AbstractLine, :AbstractPlane])
 
+    if type == :Line
+        vector = :direction
+    elseif type == :Plane
+        vector = :normal
+    end
+
     @eval struct $type{N,T} <: $supertype
 
+
         point::SVector{N,T}
-        vector::SVector{N,T}
+        $vector::SVector{N,T}
 
 
         function $type(point::SVector{N,T}, vector::SVector{N,T};kwargs...) where {N,T}
-            if is_zero(vector; kwargs...)
-                throw(ArgumentError("The vector must have a non-zero magnitude."))
-            end
-            inst = new{N,T}()
-            inst.point = point
-            inst.vector = vector
-
-            return inst
-
+            new{N,T}(point, vector)
         end
+    end
+
+    @eval function $type(point::AbstractVector, vector::AbstractVector;kwargs...)
+        point_static = abstractvec_to_svector(point)
+        vector_static = abstractvec_to_svector(vector)
+        return $type(point_static, vector_static; kwargs...)
     end
 end
 
@@ -45,12 +50,7 @@ struct Sphere{N,T} <: AbstractSphere
             throw(ArgumentError("A spatial description only possible in dim = 3."))
         end 
 
-
-        inst = new{N,T}()
-
-        inst.center = center
-        inst.radius = radius
-        return inst
+    new{N,T}(center,radius)
     end
 end
 
@@ -66,7 +66,7 @@ struct Circle{N,T} <: AbstractSphere
     normal::SVector{N, T}
 
     function Circle(center::SVector{N,T} , radius::Real, normal::SVector{N, T}) where {N,T}
-        println("da")
+
         if radius <= 0
             throw(ArgumentError("A negative radius is not permitted."))
         end
