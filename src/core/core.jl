@@ -65,8 +65,7 @@ struct Circle{N,T} <: AbstractSphere
     radius::Real
     normal::SVector{N, T}
 
-    function Circle(center::SVector{N,T} , radius::Real, normal::SVector{N, T}) where {N,T}
-
+    function Circle(center::SVector{N,T} , radius::Real, normal::SVector{N, T}) where {N, T}
         if radius <= 0
             throw(ArgumentError("A negative radius is not permitted."))
         end
@@ -74,7 +73,6 @@ struct Circle{N,T} <: AbstractSphere
         if N != 3 
             throw(ArgumentError("A spatial description only possible in dim = 3."))
         end 
-
 
         new{N,T}(center, radius, normal)
     end

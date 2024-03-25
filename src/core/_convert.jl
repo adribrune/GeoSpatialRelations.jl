@@ -4,4 +4,3 @@ function abstractvec_to_svector(vec::AbstractVector{T}) where {T <: Real}
     end
     return SVector{3, T}(vec)
 end
-
