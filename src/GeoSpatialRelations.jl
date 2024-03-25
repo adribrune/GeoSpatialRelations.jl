@@ -1,4 +1,4 @@
-module Intersect3D
+module GeoSpatialRelations
 
 using LinearAlgebra
 using StaticArrays

@@ -1,4 +1,4 @@
-name = "Intersect3D"
+name = "GeoSpatialRelations"
 uuid = "4f4b3779-db02-45a2-a250-b7461b60f8cf"
 authors = ["bruneadr "]
 version = "0.1.0"
