@@ -1,5 +1,5 @@
 """
-    intersectio()
+    intersection()
 
     calculate the intersection point 
 
@@ -96,7 +96,7 @@ function intersection(circ1::Circle, circ2::Circle)
     else                                        
         lambda = acos((norm(circ1.center -circ2.center)^2 + circ1.radius^2-circ2.radius^2)/(2*circ1.radius*(norm(circ1.center -circ2.center))));
         h = sin(lambda)*circ1.radius;  
-        a = sqrt(circ2.radius^2-h^2);
+        a = sqrt(circ1.radius^2-h^2);
         ps = circ1.center - ((circ1.center-circ2.center)/norm(circ1.center-circ2.center))*a;
         v = cross(n_circ,(circ1.center-circ2.center)/norm(circ1.center-circ2.center));
         p1 = ps - h*(v/norm(v));
@@ -107,17 +107,17 @@ end
 
 
 function intersection(circ::Circle, sphere::Sphere)
-    circ.normal = circ.normal/norm(circ.normal)        #circ.normal must be a unit vector
-    d = (circ.normal[1]*sphere.center[1] + circ.normal[2]*sphere.center[2] + circ.normal[3]*sphere.center[3] - sum(circ.normal.*circ.center))
+    normal = circ.normal/norm(circ.normal)        #circ.normal must be a unit vector
+    d = (normal[1]*sphere.center[1] + normal[2]*sphere.center[2] + normal[3]*sphere.center[3] - sum(normal.*circ.center))
     if abs(d) > sphere.radius
         error("No Intersection")
     elseif abs(d) == sphere.radius
-        I = circ.center + sphere.radius*circ.normal
+        I = circ.center + sphere.radius*normal
     else
         r_circ_2 = sqrt(sphere.radius^2-d^2)
-        center_circ_2 = sphere.center -d*circ.normal
-        circ2 = Circle(center_circ_2, r_circ_2, circ.normal)
-        p1, p2 = circcirc(circ, circ2)
+        center_circ_2 = sphere.center -d*normal
+        circ2 = Circle(center_circ_2, r_circ_2, normal)
+        p1, p2 = intersection(circ, circ2)
     end
     return p1,p2
 end

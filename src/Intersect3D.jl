@@ -7,5 +7,5 @@ include("core/core.jl")
 include("core/_convert.jl")
 include("func/intersection.jl")
 
-export circcirc, circsphere, linesphere, lineline, lineplane
+export intersection
 end # module Intersect3D
