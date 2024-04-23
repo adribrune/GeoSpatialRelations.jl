@@ -1,6 +1,6 @@
 # GeoSpatialRelations.jl
 
-
+[![Documentation](https://github.com/adribrune/GeoSpatialRelations.jl/actions/workflows/Documentation.yml/badge.svg)](https://github.com/adribrune/GeoSpatialRelations.jl/actions/workflows/Documentation.yml)
 ## What is GeoSpatialRelations.jl?
 [*GeoSpatialRelations.jl*](https://github.com/ThummeTo/FMI.jl) is a freely usable software library for the Julia programming language that integrates the basic operations between geometric objects in space. These include **circle**, **sphere**, **straight line** and **plane**. The following relationships can be determined between these objects:
 
