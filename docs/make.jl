@@ -1,4 +1,5 @@
 using Documenter
+using Documenter: GitHubActions
 
 makedocs(sitename="GeoSpatialRelations.jl",
     format = Documenter.HTML(
