@@ -1,10 +1,15 @@
 using Documenter
-using Intersect3D
 
 makedocs(
-    sitename = "Intersect3D",
-    format = Documenter.HTML(),
-    modules = [Intersect3D]
+    format = Documenter.HTML(
+        collapselevel = 1,
+        sidebar_sitename = false,
+        edit_link = nothing,
+        size_threshold = 512000,
+     ),
+     modules = [GeoSpatialRelations],
+     checkdocs=:exports,
+     linkcheck=true,
 )
 
 # Documenter can also automatically deploy documentation to gh-pages.
