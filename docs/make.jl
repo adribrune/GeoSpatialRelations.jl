@@ -12,14 +12,14 @@ makedocs(sitename="GeoSpatialRelations.jl",
      linkcheck=true,
 )
 
-function deployConfig()
-    github_repository = get(ENV, "GITHUB_REPOSITORY", "")
-    github_event_name = get(ENV, "GITHUB_EVENT_NAME", "")
-    if github_event_name == "workflow_run"
-        github_event_name = "push"
-    end
-    github_ref = get(ENV, "GITHUB_REF", "")
-    return GitHubActions(github_repository, github_event_name, github_ref)
-end
-
-deploydocs(repo = "github.com/adribrune/GeoSpatialRelations.jl.git", devbranch = "main", deploy_config = deployConfig())
+#function deployConfig()
+#    github_repository = get(ENV, "GITHUB_REPOSITORY", "")
+#    github_event_name = get(ENV, "GITHUB_EVENT_NAME", "")
+#    if github_event_name == "workflow_run"
+#        github_event_name = "push"
+#    end
+#    github_ref = get(ENV, "GITHUB_REF", "")
+#    return GitHubActions(github_repository, github_event_name, github_ref)
+#end
+#
+#deploydocs(repo = "github.com/adribrune/GeoSpatialRelations.jl.git", devbranch = "main", deploy_config = deployConfig())
