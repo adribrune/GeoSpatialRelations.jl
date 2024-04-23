@@ -1,4 +1,5 @@
-using Documenter
+import Pkg; Pkg.develop(path=joinpath(@__DIR__,"../../GeoSpatialRelations.jl"))
+using Documenter , GeoSpatialRelations
 using Documenter: GitHubActions
 
 makedocs(sitename="GeoSpatialRelations.jl",
