@@ -1,3 +1,4 @@
+import Pkg; Pkg.develop(path=joinpath(@__DIR__,"../../GeoSpatialRelations.jl"))
 using Documenter
 
 makedocs(
