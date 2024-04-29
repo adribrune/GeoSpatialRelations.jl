@@ -11,6 +11,9 @@ makedocs(sitename="GeoSpatialRelations.jl",
      ),
      checkdocs=:exports,
      linkcheck=true,
+     pages= Any[
+            "Introduction" => "index.md"
+     ]
 )
 
 function deployConfig()
