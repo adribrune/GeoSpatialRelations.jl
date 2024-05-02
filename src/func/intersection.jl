@@ -4,11 +4,11 @@
 calculating the intersection point for a line and plane
 
 # Arguments
--`line::Line`: instance of a line
--`plane::Plane` instance of a plane
+- `line::Line`: instance of a line
+- `plane::Plane` instance of a plane
 
 # Returns
--`intersection_point::Vector`: point of intersection
+- `intersection_point::Vector`: point of intersection
 
 """
 function intersection(line::Line, plane::Plane)
@@ -27,8 +27,8 @@ end
 calculating the intersection point for two lines 
 
 # Arguments
--`line1::Line`: instance of a line
--`line2::Line`: instance of a line
+- `line1::Line`: instance of a line
+- `line2::Line`: instance of a line
 
 # Returns
 There are two possibilities:
@@ -71,8 +71,8 @@ end
 calculating the intersection point for a line and sphere
 
 # Arguments
--`line::Line`: instance of a line
--`sphere::Sphere`: instance of a sphere
+- `line::Line`: instance of a line
+- `sphere::Sphere`: instance of a sphere
 
 # Returns
 There are three possibilities:
@@ -113,8 +113,8 @@ end
 calculating the intersection point for two cicles
 
 # Arguments
--`circ1::Circle`: instance of a circle
--`circ2::Circle`: instance of a circle
+- `circ1::Circle`: instance of a circle
+- `circ2::Circle`: instance of a circle
 
 # Returns
 There are three possibilities:
@@ -156,8 +156,8 @@ end
 calculating the intersection point for a circle and sphere
 
 # Arguments
--`circ::Circle`: instance of a circle
--`sphere::Sphere`: instance of a sphere
+- `circ::Circle`: instance of a circle
+- `sphere::Sphere`: instance of a sphere
 
 # Returns
 There are three possibilities:
