@@ -13,7 +13,7 @@ makedocs(sitename="GeoSpatialRelations.jl",
      linkcheck=true,
      pages= Any[
             "Introduction" => "index.md",
-            ""
+            "Function Library" => "library.md"
      ]
 )
 
