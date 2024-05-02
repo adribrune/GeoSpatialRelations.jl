@@ -1,15 +1,14 @@
 """
-    intersection()
+    intersection(line::Line, plane::Plane)
 
-    calculate the intersection point 
-
-
+calculating the intersection point for a line and plane
 
 # Arguments
-
+-`line::Line`: instance of a line
+-`plane::Plane` instance of a plane
 
 # Returns
-
+-`intersection_point::Vector`: point of intersection
 
 """
 function intersection(line::Line, plane::Plane)
@@ -22,7 +21,21 @@ function intersection(line::Line, plane::Plane)
 
 end
 
+"""
+    intersection(line::Line, line2::Line)
 
+calculating the intersection point for two lines 
+
+# Arguments
+-`line1::Line`: instance of a line
+-`line2::Line`: instance of a line
+
+# Returns
+There are two possibilities:
+- There is no intersection point, an error message is displayed.
+- Ther is one intersection then `intersection_point::Vector` is returned.
+
+"""
 function intersection(line1::Line, line2::Line)
     
 
@@ -52,7 +65,22 @@ end
 
 
 
+"""
+    intersection(line::Line, sphere::Sphere)
 
+calculating the intersection point for a line and sphere
+
+# Arguments
+-`line::Line`: instance of a line
+-`sphere::Sphere`: instance of a sphere
+
+# Returns
+There are three possibilities:
+- There is no intersection point, an error message is displayed.
+- Ther is one intersection then `intersection_point::Vector` is returned.
+- Ther are two intersection then `intersection_point1::Vector` and `intersection_point2::Vector` are returned.
+
+"""
 function intersection(line::Line,sphere::Sphere)
     a = dot(line.direction, line.direction)
     b = 2 * dot(line.direction, line.point - sphere.center)
@@ -62,6 +90,7 @@ function intersection(line::Line,sphere::Sphere)
 
     if discriminant < 0
         # Kein Schnittpunkt
+        error("no intersection")
         return nothing
     elseif discriminant == 0
         # Eine Lösung (tangentialer Schnittpunkt)
@@ -78,6 +107,22 @@ function intersection(line::Line,sphere::Sphere)
     end
 end
 
+"""
+    intersection(circ1::Circle, circ2::Circle)
+
+calculating the intersection point for two cicles
+
+# Arguments
+-`circ1::Circle`: instance of a circle
+-`circ2::Circle`: instance of a circle
+
+# Returns
+There are three possibilities:
+- There is no intersection point, an error message is displayed.
+- Ther is one intersection then `intersection_point::Vector` is returned.
+- Ther are two intersection then `intersection_point1::Vector` and `intersection_point2::Vector` are returned.
+
+"""
 function intersection(circ1::Circle, circ2::Circle)
     if circ1.normal != circ2.normal
         throw(ArgumentError("The two circles do not lie in the same plane of three-dimensional space!"))
@@ -105,7 +150,22 @@ function intersection(circ1::Circle, circ2::Circle)
     end
 end
 
+"""
+    intersection(circ::Circle, sphere::Sphere)
 
+calculating the intersection point for a circle and sphere
+
+# Arguments
+-`circ::Circle`: instance of a circle
+-`sphere::Sphere`: instance of a sphere
+
+# Returns
+There are three possibilities:
+- There is no intersection point, an error message is displayed.
+- Ther is one intersection then `intersection_point::Vector` is returned.
+- Ther are two intersection then `intersection_point1::Vector` and `intersection_point2::Vector` are returned.
+
+"""
 function intersection(circ::Circle, sphere::Sphere)
     normal = circ.normal/norm(circ.normal)        #circ.normal must be a unit vector
     d = (normal[1]*sphere.center[1] + normal[2]*sphere.center[2] + normal[3]*sphere.center[3] - sum(normal.*circ.center))
