@@ -8,16 +8,29 @@ calculating the intersection point for a line and plane
 - `plane::Plane` instance of a plane
 
 # Returns
-- `intersection_point::Vector`: point of intersection
+- `x::Vector`: point of intersection
 
 """
 function intersection(line::Line, plane::Plane)
 
-    x = dot(plane.normal, plane.point .- line.point) / dot(plane.normal, line.direction)
+    a,v = line.point, line.direction
+    q,n = plane.point, plane.normal
+    # plane equation parameter c = n * q 
+    c = dot(n,q)
 
-    intersection_point = line.point .+ x * line.direction
+    if dot(v,n) == 0
+        @error "Directional vector of line and normal vector of plane are orthogonal! No interstion possible!"
+        if  dot(n,a) == c 
+            @error "line lies on the plane! No interstion possible!" 
+        end 
+        return nothing
+    end
 
-    return intersection_point
+    r = (c - dot(n,a)) / (dot(n,v))
+
+    x = a + r * v
+
+    return x
 
 end
 
@@ -38,27 +51,56 @@ There are two possibilities:
 """
 function intersection(line1::Line, line2::Line)
     
+    a1,v1 = line1.point, line1.direction
+    a2,v2 = line2.point, line2.direction
 
-    A = hcat(line1.direction,line2.direction*-1)
-    b = line2.point .- line1.point
-  
+    A = hcat(v1,v2*-1)
+    b = a2 .- a1
+    t = nothing
+    mA = nothing
+    mt = nothing
 
-    if (line1.direction / norm(line1.direction)) ==  (line2.direction / norm(line2.direction))
-        error("Both directional vectors have the same direction.")
+    if (line1.direction / norm(line1.direction)) ==  (line2.direction / norm(line2.direction)) || (line1.direction / norm(line1.direction)) ==  -(line2.direction / norm(line2.direction))
+        @error "Direction vectors have the same or inverse direction! No intersection possible!"
         return nothing 
+    end 
+
+    if det(A[1:2,:]) != 0
+        @info "Determinant of A[1:2,:] not equall to Zero so A[1:2,:] is regulär"
+        t = A[1:2,:] \ b[1:2]
+        mA = reshape(A[3,:],1,2)
+        mt = reshape(t,2,1)
+        b_el = b[3]
+    elseif det(A[2:3,:])!= 0
+        @info "Determinant of A[2:3,:] not equall to Zero so A[2:3,:] is regulär"
+        t = A[2:3,:] \ b[2:3]
+        println(t)
+        mA = reshape(A[1,:],1,2)
+        mt = reshape(t,2,1)
+        b_el = b[1]
+    elseif det(hcat(A[1,:], A[3,:]))!= 0
+        @info "Determinant of hcat(A[1,:], A[3,:]) not equall to Zero so hcat(A[1,:], A[3,:]) is regulär"
+        t = hcat(A[1,:], A[3,:]) \ hcat(b[1], b[3])
+        mA = reshape(A[2,:],1,2)
+        mt = reshape(t,2,1)
+        b_el = b[2]
     end
 
-    t = A[1:2,:] \ b[1:2]
+    if t === nothing 
+        @error "Determinant of possible A equalls Zero, so A is iregulär"
+        return nothing
+    end
 
-    mA = reshape(A[3,:],1,2)
-    mt = reshape(t,2,1)
-
-    if  mA * mt != b[3]
-        error("The given arugments are skew lines")
+    #checked whether the calculated values of t actually represent a valid solution 
+    #to ensure that the lines intersect in space and are not just shifted in parallel.
+    if  (mA * mt)[1] != b_el
+        println((mA * mt)[1])
+        println(b_el)
+        @error "The given arugments are skew lines! No intersection possible!"
+        return nothing
     end
 
     intersection_point = line1.point .+ t[1] .* line1.direction
-
 
     return intersection_point
 end
