@@ -8,29 +8,16 @@ calculating the intersection point for a line and plane
 - `plane::Plane` instance of a plane
 
 # Returns
-- `x::Vector`: point of intersection
+- `intersection_point::Vector`: point of intersection
 
 """
 function intersection(line::Line, plane::Plane)
 
-    a,v = line.point, line.direction
-    q,n = plane.point, plane.normal
-    # plane equation parameter c = n * q 
-    c = dot(n,q)
+    x = dot(plane.normal, plane.point .- line.point) / dot(plane.normal, line.direction)
 
-    if dot(v,n) == 0
-        @error "Directional vector of line and normal vector of plane are orthogonal! No interstion possible!"
-        if  dot(n,a) == c 
-            @error "line lies on the plane! No interstion possible!" 
-        end 
-        return nothing
-    end
+    intersection_point = line.point .+ x * line.direction
 
-    r = (c - dot(n,a)) / (dot(n,v))
-
-    x = a + r * v
-
-    return x
+    return intersection_point
 
 end
 
@@ -51,57 +38,27 @@ There are two possibilities:
 """
 function intersection(line1::Line, line2::Line)
     
-    a1,v1 = line1.point, line1.direction
-    a2,v2 = line2.point, line2.direction
 
-    A = hcat(v1,v2*-1)
-    b = a2 .- a1
-    t = nothing
-    mA = nothing
-    mt = nothing
+    A = hcat(line1.direction,line2.direction*-1)
+    b = line2.point .- line1.point
+  
 
-    if (line1.direction / norm(line1.direction)) ==  (line2.direction / norm(line2.direction)) || (line1.direction / norm(line1.direction)) ==  -(line2.direction / norm(line2.direction))
-        @error "Direction vectors have the same or inverse direction! No intersection possible!"
+    if (line1.direction / norm(line1.direction)) ==  (line2.direction / norm(line2.direction))
+        error("Both directional vectors have the same direction.")
         return nothing 
-    end 
-
-    if det(A[1:2,:]) != 0
-        @info "Determinant of A[1:2,:] not equall to Zero so A[1:2,:] is regulär"
-        t = A[1:2,:] \ b[1:2]
-        mA = reshape(A[3,:],1,2)
-        mt = reshape(t,2,1)
-        b_el = b[3]
-    elseif det(A[2:3,:])!= 0
-        @info "Determinant of A[2:3,:] not equall to Zero so A[2:3,:] is regulär"
-        t = A[2:3,:] \ b[2:3]
-        println(t)
-        mA = reshape(A[1,:],1,2)
-        mt = reshape(t,2,1)
-        b_el = b[1]
-    elseif det(hcat(A[1,:], A[3,:]))!= 0
-        @info "Determinant of hcat(A[1,:], A[3,:]) not equall to Zero so hcat(A[1,:], A[3,:]) is regulär"
-        t = hcat(A[1,:], A[3,:]) \ hcat(b[1], b[3])
-        mA = reshape(A[2,:],1,2)
-        mt = reshape(t,2,1)
-        b_el = b[2]
     end
 
-    if t === nothing 
-        @error "Determinant of possible A equalls Zero, so A is iregulär"
-        #throw(ArgumentError("The two circles do not lie in the same plane of three-dimensional space!"))
-        return nothing
-    end
+    t = A[1:2,:] \ b[1:2]
 
-    #checked whether the calculated values of t actually represent a valid solution 
-    #to ensure that the lines intersect in space and are not just shifted in parallel.
-    if  (mA * mt)[1] != b_el
-        println((mA * mt)[1])
-        println(b_el)
-        @error "The given arugments are skew lines! No intersection possible!"
-        return nothing
+    mA = reshape(A[3,:],1,2)
+    mt = reshape(t,2,1)
+
+    if  mA * mt != b[3]
+        error("The given arugments are skew lines")
     end
 
     intersection_point = line1.point .+ t[1] .* line1.direction
+
 
     return intersection_point
 end
@@ -119,10 +76,9 @@ calculating the intersection point for a line and sphere
 
 # Returns
 There are three possibilities:
-- `Tuple{Union{Vector, Nothing}, Union{Vector, Nothing}}`: 
-        -`(nothing, nothing)`: No intersction found
-        -`(Vector, nothing)`: One intersection found
-        -`(Vector, Vector)`: Two intersections found
+- There is no intersection point, an error message is displayed.
+- Ther is one intersection then `intersection_point::Vector` is returned.
+- Ther are two intersection then `intersection_point1::Vector` and `intersection_point2::Vector` are returned.
 
 """
 function intersection(line::Line,sphere::Sphere)
@@ -134,17 +90,15 @@ function intersection(line::Line,sphere::Sphere)
 
     if discriminant < 0
         # Kein Schnittpunkt
-        @error "No intersection possible!"
-        return nothing,nothing
+        error("no intersection")
+        return nothing
     elseif discriminant == 0
         # Eine Lösung (tangentialer Schnittpunkt)
-        @info "One solution found!"
         t = -b / (2 * a)
         intersection_point = line.point + t *  line.direction
-        return intersection_point, nothing
+        return intersection_point
     else
         # Zwei Lösungen (Schnittpunkte)
-        @info "Two solutions found!"
         t1 = (-b + sqrt(discriminant)) / (2 * a)
         t2 = (-b - sqrt(discriminant)) / (2 * a)
         intersection_point1 = line.point + t1 *  line.direction
@@ -164,15 +118,14 @@ calculating the intersection point for two cicles
 
 # Returns
 There are three possibilities:
-- `Tuple{Union{Vector, Nothing}, Union{Vector, Nothing}}`: 
-        -`(nothing, nothing)`: No intersction found
-        -`(Vector, nothing)`: One intersection found
-        -`(Vector, Vector)`: Two intersections found
+- There is no intersection point, an error message is displayed.
+- Ther is one intersection then `intersection_point::Vector` is returned.
+- Ther are two intersection then `intersection_point1::Vector` and `intersection_point2::Vector` are returned.
+
 """
 function intersection(circ1::Circle, circ2::Circle)
     if circ1.normal != circ2.normal
-        @error "The two circles do not lie in the same plane of three-dimensional space!"
-        return nothing, nothing
+        throw(ArgumentError("The two circles do not lie in the same plane of three-dimensional space!"))
     end
 
     n_circ = circ1.normal
@@ -181,14 +134,11 @@ function intersection(circ1::Circle, circ2::Circle)
     d = norm(circ1.center - circ2.center)                 
     
     if d > (abs(circ1.radius) + abs(circ2.radius)) || ((abs(d) + abs(circ1.radius)) <  abs(circ2.radius)) || ((abs(d) + abs(circ2.radius)) <  abs(circ1.radius))   # Check if circles do not intersect      
-        @error "There is no intersction found!"
-        return nothing, nothing
+        error("circles do not intersect")
     elseif d == (abs(circ1.radius) + abs(circ2.radius)) ||   (abs(d) + abs(circ1.radius)) == abs(circ2.radius) # Check if circles are tangent at one point     
-        @info "One intersection point has been found!"
-        p1 = circ1.center + (circ1.center -circ2.center)/norm(circ1.center -circ2.center) * circ1.radius
-        return p1,nothing
-    else
-        @info "Two intersection points have been found!"                                        
+        p1 = circ1.center + (circ1.center -circ2.center)/norm(circ1.center -circ2.center) * circ1.radius;
+        p2 = [];
+    else                                        
         lambda = acos((norm(circ1.center -circ2.center)^2 + circ1.radius^2-circ2.radius^2)/(2*circ1.radius*(norm(circ1.center -circ2.center))));
         h = sin(lambda)*circ1.radius;  
         a = sqrt(circ1.radius^2-h^2);
@@ -219,20 +169,15 @@ There are three possibilities:
 function intersection(circ::Circle, sphere::Sphere)
     normal = circ.normal/norm(circ.normal)        #circ.normal must be a unit vector
     d = (normal[1]*sphere.center[1] + normal[2]*sphere.center[2] + normal[3]*sphere.center[3] - sum(normal.*circ.center))
-
     if abs(d) > sphere.radius
-        @error "There is no intersction found!"
-        return nothing, nothing
+        error("No Intersection")
     elseif abs(d) == sphere.radius
-        @info "One intersection point has been found!"
         I = circ.center + sphere.radius*normal
-        return I, nothing
-    else    
-        @info "Two intersection points have been found!"
+    else
         r_circ_2 = sqrt(sphere.radius^2-d^2)
         center_circ_2 = sphere.center -d*normal
         circ2 = Circle(center_circ_2, r_circ_2, normal)
         p1, p2 = intersection(circ, circ2)
-        return p1,p2
     end
+    return p1,p2
 end
