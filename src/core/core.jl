@@ -21,11 +21,16 @@ for (type, supertype) in zip([:Line, :Plane], [:AbstractLine, :AbstractPlane])
 
 
         function $type(point::SVector{N,T}, vector::SVector{N,T};kwargs...) where {N,T}
+
+            if N != 3 
+                throw(ArgumentError("A spatial description only possible in dim = 3."))
+            end 
+            
             new{N,T}(point, vector)
         end
     end
 
-    @eval function $type(point::AbstractVector, vector::AbstractVector;kwargs...)
+    @eval function $type(point::Vector, vector::Vector;kwargs...)
         point_static = abstractvec_to_svector(point)
         vector_static = abstractvec_to_svector(vector)
         return $type(point_static, vector_static; kwargs...)
