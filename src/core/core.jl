@@ -26,7 +26,7 @@ for (type, supertype) in zip([:Line, :Plane], [:AbstractLine, :AbstractPlane])
                 throw(ArgumentError("A spatial description only possible in dim = 3."))
             end 
             
-            new{N,T}(point, vector)
+            new{N,T1,T2}(point, vector)
         end
     end
 
@@ -79,7 +79,7 @@ struct Circle{N,T1,T2} <: AbstractSphere
             throw(ArgumentError("A spatial description only possible in dim = 3."))
         end 
 
-        new{N,T}(center, radius, normal)
+        new{N,T1,T2}(center, radius, normal)
     end
 
 end
