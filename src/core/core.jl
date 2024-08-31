@@ -20,7 +20,7 @@ for (type, supertype) in zip([:Line, :Plane], [:AbstractLine, :AbstractPlane])
         $vector::SVector{N,T}
 
 
-        function $type(point::SVector{N,T}, vector::SVector{N,T};kwargs...) where {N,T}
+        function $type(point::SVector{N,T}, vector::SVector{N,T}) where {N,T}
 
             if N != 3 
                 throw(ArgumentError("A spatial description only possible in dim = 3."))
@@ -30,10 +30,10 @@ for (type, supertype) in zip([:Line, :Plane], [:AbstractLine, :AbstractPlane])
         end
     end
 
-    @eval function $type(point::Vector, vector::Vector;kwargs...)
+    @eval function $type(point::Vector, vector::Vector)
         point_static = abstractvec_to_svector(point)
         vector_static = abstractvec_to_svector(vector)
-        return $type(point_static, vector_static; kwargs...)
+        return $type(point_static, vector_static)
     end
 end
 
@@ -59,7 +59,7 @@ struct Sphere{N,T} <: AbstractSphere
     end
 end
 
-function Sphere(point::AbstractVector, radius::Real)
+function Sphere(point::Vector, radius::Real)
     point_static = abstractvec_to_svector(point)
     return Sphere(point_static, radius)
 end
@@ -86,7 +86,7 @@ end
 
 
 
-function Circle(point::AbstractVector, radius::Real, normal::AbstractVector)
+function Circle(point::Vector, radius::Real, normal::Vector)
     point_static = abstractvec_to_svector(point)
     normal_static = abstractvec_to_svector(normal)
     return Circle(point_static, radius, normal_static)
