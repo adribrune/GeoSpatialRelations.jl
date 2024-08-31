@@ -16,8 +16,8 @@ for (type, supertype) in zip([:Line, :Plane], [:AbstractLine, :AbstractPlane])
     @eval struct $type{N,T1,T2} <: $supertype
 
 
-        point::SVector{N,T}
-        $vector::SVector{N,T}
+        point::SVector{N,T1}
+        $vector::SVector{N,T2}
 
 
         function $type(point::SVector{N,T1}, vector::SVector{N,T2}) where {N,T1,T2}
@@ -66,9 +66,9 @@ end
 
 struct Circle{N,T1,T2} <: AbstractSphere 
 
-    center::SVector{N, T} 
+    center::SVector{N, T1} 
     radius::Real
-    normal::SVector{N, T}
+    normal::SVector{N, T2}
 
     function Circle(center::SVector{N,T1} , radius::Real, normal::SVector{N, T2}) where {N, T1, T2}
         if radius <= 0
