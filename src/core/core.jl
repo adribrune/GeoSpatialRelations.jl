@@ -13,14 +13,14 @@ for (type, supertype) in zip([:Line, :Plane], [:AbstractLine, :AbstractPlane])
         vector = :normal
     end
 
-    @eval struct $type{N,T} <: $supertype
+    @eval struct $type{N,T1,T2} <: $supertype
 
 
         point::SVector{N,T}
         $vector::SVector{N,T}
 
 
-        function $type(point::SVector{N,T}, vector::SVector{N,T}) where {N,T}
+        function $type(point::SVector{N,T1}, vector::SVector{N,T2}) where {N,T1,T2}
 
             if N != 3 
                 throw(ArgumentError("A spatial description only possible in dim = 3."))
@@ -64,13 +64,13 @@ function Sphere(point::Vector, radius::Real)
     return Sphere(point_static, radius)
 end
 
-struct Circle{N,T} <: AbstractSphere 
+struct Circle{N,T1,T2} <: AbstractSphere 
 
     center::SVector{N, T} 
     radius::Real
     normal::SVector{N, T}
 
-    function Circle(center::SVector{N,T} , radius::Real, normal::SVector{N, T}) where {N, T}
+    function Circle(center::SVector{N,T1} , radius::Real, normal::SVector{N, T2}) where {N, T1, T2}
         if radius <= 0
             throw(ArgumentError("A negative radius is not permitted."))
         end
