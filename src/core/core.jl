@@ -23,7 +23,7 @@ for (type, supertype) in zip([:Line, :Plane], [:AbstractLine, :AbstractPlane])
         function $type(point::SVector{N,T1}, vector::SVector{N,T2}) where {N,T1,T2}
 
             if N != 3 
-                throw(ArgumentError("A spatial description only possible in dim = 3."))
+                throw(ArgumentError("A spatial description is only possible in dim = 3."))
             end 
             
             new{N,T1,T2}(point, vector)
@@ -48,11 +48,11 @@ struct Sphere{N,T} <: AbstractSphere
 
     function Sphere(center::SVector{N,T} , radius::Real ) where {N,T}
         if radius <= 0
-            throw(ArgumentError("A negative radius is not permitted."))
+            throw(ArgumentError("Negative radius values are not permitted."))
         end
 
         if N != 3 
-            throw(ArgumentError("A spatial description only possible in dim = 3."))
+            throw(ArgumentError("A spatial description is only possible in dim = 3."))
         end 
 
     new{N,T}(center,radius)
@@ -72,11 +72,11 @@ struct Circle{N,T1,T2} <: AbstractSphere
 
     function Circle(center::SVector{N,T1} , radius::Real, normal::SVector{N, T2}) where {N, T1, T2}
         if radius <= 0
-            throw(ArgumentError("A negative radius is not permitted."))
+            throw(ArgumentError("Negative radius values are not permitted."))
         end
 
         if N != 3 
-            throw(ArgumentError("A spatial description only possible in dim = 3."))
+            throw(ArgumentError("A spatial description is only possible in dim = 3."))
         end 
 
         new{N,T1,T2}(center, radius, normal)

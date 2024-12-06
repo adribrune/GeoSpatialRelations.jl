@@ -1,11 +1,11 @@
 """
     intersection(line::Line, plane::Plane)
 
-calculating the intersection point for a line and plane
+Calculating the intersection point between a line and a plane
 
 # Arguments
 - `line::Line`: instance of a line
-- `plane::Plane` instance of a plane
+- `plane::Plane`: instance of a plane
 
 # Returns
 - `intersection_point::Vector`: point of intersection
@@ -24,7 +24,7 @@ end
 """
     intersection(line::Line, line2::Line)
 
-calculating the intersection point for two lines 
+Calculating the intersection point between two lines 
 
 # Arguments
 - `line1::Line`: instance of a line
@@ -32,8 +32,8 @@ calculating the intersection point for two lines
 
 # Returns
 There are two possibilities:
-- There is no intersection point, an error message is displayed.
-- Ther is one intersection then `intersection_point::Vector` is returned.
+- If there is no intersection point, an error message is displayed.
+- There is one intersection then `intersection_point::Vector` is returned.
 
 """
 function intersection(line1::Line, line2::Line)
@@ -54,7 +54,7 @@ function intersection(line1::Line, line2::Line)
     mt = reshape(t,2,1)
 
     if  mA * mt != b[3]
-        error("The given arugments are skew lines")
+        error("The given arguments are skew lines.")
     end
 
     intersection_point = line1.point .+ t[1] .* line1.direction
@@ -68,7 +68,7 @@ end
 """
     intersection(line::Line, sphere::Sphere)
 
-calculating the intersection point for a line and sphere
+calculating the intersection point for a line and a sphere
 
 # Arguments
 - `line::Line`: instance of a line
@@ -76,9 +76,9 @@ calculating the intersection point for a line and sphere
 
 # Returns
 There are three possibilities:
-- There is no intersection point, an error message is displayed.
-- Ther is one intersection then `intersection_point::Vector` is returned.
-- Ther are two intersection then `intersection_point1::Vector` and `intersection_point2::Vector` are returned.
+- If there is no intersection point, an error message is displayed.
+- There is one intersection then `intersection_point::Vector` is returned.
+- There are two intersection then `intersection_point1::Vector` and `intersection_point2::Vector` are returned.
 
 """
 function intersection(line::Line,sphere::Sphere)
@@ -90,7 +90,7 @@ function intersection(line::Line,sphere::Sphere)
 
     if discriminant < 0
         # Kein Schnittpunkt
-        error("no intersection")
+        error("No intersection")
         return nothing
     elseif discriminant == 0
         # Eine Lösung (tangentialer Schnittpunkt)
@@ -118,9 +118,9 @@ calculating the intersection point for two cicles
 
 # Returns
 There are three possibilities:
-- There is no intersection point, an error message is displayed.
-- Ther is one intersection then `intersection_point::Vector` is returned.
-- Ther are two intersection then `intersection_point1::Vector` and `intersection_point2::Vector` are returned.
+- If there is no intersection point, an error message is displayed.
+- There is one intersection then `intersection_point::Vector` is returned.
+- There are two intersection then `intersection_point1::Vector` and `intersection_point2::Vector` are returned.
 
 """
 function intersection(circ1::Circle, circ2::Circle)
@@ -130,7 +130,7 @@ function intersection(circ1::Circle, circ2::Circle)
 
     n_circ = circ1.normal
 
-    n_circ = n_circ/norm(n_circ)        #n_circ must be a unit vector
+    n_circ = n_circ/norm(n_circ)        # n_circ must be a unit vector
     d = norm(circ1.center - circ2.center)                 
     
     if d > (abs(circ1.radius) + abs(circ2.radius)) || ((abs(d) + abs(circ1.radius)) <  abs(circ2.radius)) || ((abs(d) + abs(circ2.radius)) <  abs(circ1.radius))   # Check if circles do not intersect      
@@ -153,7 +153,7 @@ end
 """
     intersection(circ::Circle, sphere::Sphere)
 
-calculating the intersection point for a circle and sphere
+calculating the intersection point for a circle and a sphere
 
 # Arguments
 - `circ::Circle`: instance of a circle
@@ -161,16 +161,16 @@ calculating the intersection point for a circle and sphere
 
 # Returns
 There are three possibilities:
-- There is no intersection point, an error message is displayed.
-- Ther is one intersection then `intersection_point::Vector` is returned.
-- Ther are two intersection then `intersection_point1::Vector` and `intersection_point2::Vector` are returned.
+- If there is no intersection point, an error message is displayed.
+- There is one intersection then `intersection_point::Vector` is returned.
+- There are two intersection then `intersection_point1::Vector` and `intersection_point2::Vector` are returned.
 
 """
 function intersection(circ::Circle, sphere::Sphere)
     normal = circ.normal/norm(circ.normal)        #circ.normal must be a unit vector
     d = (normal[1]*sphere.center[1] + normal[2]*sphere.center[2] + normal[3]*sphere.center[3] - sum(normal.*circ.center))
     if abs(d) > sphere.radius
-        error("No Intersection")
+        error("No intersection")
     elseif abs(d) == sphere.radius
         I = circ.center + sphere.radius*normal
     else
