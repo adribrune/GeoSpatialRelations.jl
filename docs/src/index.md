@@ -13,7 +13,7 @@ To use GeoSpatialRelations.jl, simply clone the repository or install it using J
 
 1\. Open a Julia-REPL, switch to package mode using `]`, activate your preferred environment.
 
-2\. Install [*GeoSpatialRelations.jl*](https://github.com/adribrune/GeoSpatialRelations.jl.jl):
+2\. Install [*GeoSpatialRelations.jl*](https://github.com/adribrune/GeoSpatialRelations.jl.git):
 ```julia-repl
 (@v1) pkg> add GeoSpatialRelations
 ```
